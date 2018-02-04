@@ -42,6 +42,15 @@ def monitor(request,address):
     }
     return HttpResponse(template.render(context, request))
 
+def monitor_pool(request,address,pool):
+    addr = Address.objects.get(address=address)
+    template = loader.get_template('web/monitor2.html')
+    context = {
+        'address': addr,
+        'pool': pool,
+    }
+    return HttpResponse(template.render(context, request))
+
 
 # @login_required
 def chart_data_json(request,addr,pool):
