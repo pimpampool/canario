@@ -15,9 +15,18 @@
 <script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/modernizr.js" type="text/javascript"></script>
 <script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/script.js" type="text/javascript"></script>
 <script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/jquery.appear.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function open_win() {
+    window.open("http://www.zergpool.com/?address={{address.address}}")
+    window.open("https://www.ahashpool.com/wallet.php?wallet={{address.address}}")
+    window.open("https://miningpoolhub.com/?page=account&action=balances")
+    // window.open("https://miningpoolhubstats.com/USD/9aa20967691e0c3b4cdde30b8cd3d2e68815ae685681673fa6d9acd964ef8917")
+    window.open("https://pool.hashrefinery.com/?address={{address.address}}")
+    window.open("http://zpool.ca/?address={{address.address}}")
+    window.open("https://intense.hashvault.pro/en/#!/dashboard")
+}
 
-
-
+</script>
 <title>Trujario</title>
 </head>
 <body>
@@ -51,7 +60,7 @@
      <td>TOTAL</td>
      <td>{{ total }}</td>
      <td>{{total_usd}} $</td>
-     <td></td>
+     <td><input type=button value="Abrir web de pools" onclick="open_win()"></td>
    </tr>
 </table>
 <br>
@@ -65,7 +74,6 @@
     <th> {{last_24h_btc}} BTC</th>
   </tr>
 </table>
-
 
 
 
