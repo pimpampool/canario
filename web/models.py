@@ -50,6 +50,19 @@ class Lectura(models.Model):
         lec.cash = total
         lec.save()
 
+    def get_pool_url(self):
+        if self.pool == 1:
+            return "https://www.ahashpool.com/wallet.php?wallet="
+        if self.pool == 2:
+            return "http://www.zergpool.com/?address="
+        if self.pool == 3:
+            return "http://zpool.ca/?address="
+        if self.pool == 4:
+            return "https://pool.hashrefinery.com/?address="
+        else:
+            return "./"
+
+
 
 
 

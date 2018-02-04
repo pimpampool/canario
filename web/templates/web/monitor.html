@@ -48,7 +48,7 @@ function open_win() {
  {%for lec in lecturas%}
    <tr>
      <td>{{lec.cryptocurrency}}</td>
-     <td>{{lec.get_pool_display}}</td>
+     <td><a href="{{lec.get_pool_url}}{{address.address}}" target="blank">{{lec.get_pool_display}}</a></td>
      <td>{{lec.cash}}</td>
      <td>{{lec.usd}} $</td>
      <td>{{lec.date}}</td>
