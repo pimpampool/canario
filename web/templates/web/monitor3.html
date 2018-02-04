@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="http://www.highcharts.com/joomla/media/com_demo/css/highslide.min.css" type="text/css">
+<link rel="stylesheet" href="http://www.highcharts.com/joomla/media/templates/highsoft_2015/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="http://www.highcharts.com/joomla/media/templates/highsoft_2015/css/source-sans-pro.css" type="text/css">
+<link rel="stylesheet" href="http://www.highcharts.com/joomla/media/templates/highsoft_2015/css/font-awesome.css" type="text/css">
+<!-- <link rel="stylesheet" href="http://www.highcharts.com/joomla/media/templates/highsoft_2015/css/template.css" type="text/css"> -->
+<script src="http://www.highcharts.com//lib/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.5/highcharts.js" type="text/javascript"></script>
+
+
+<script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/bootstrap.js" type="text/javascript"></script>
+<script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/modernizr.js" type="text/javascript"></script>
+<script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/script.js" type="text/javascript"></script>
+<script src="http://www.highcharts.com/joomla/media/templates/highsoft_2015/js/jquery.appear.min.js" type="text/javascript"></script>
+
+
+
+<title>Page Title</title>
+</head>
+<body>
+
+
+
+
+
+<h1>{{lec.address}}</h1>
+<table  border="1">
+ <tr>
+   <th>Currency</th>
+   <th>pool</th>
+   <th>cash</th>
+   <th>last update</th>
+ </tr>
+
+ {%for lec in lecturas%}
+   <tr>
+     <td>{{lec.cryptocurrency}}</td>
+     <td>{{lec.get_pool_display}}</td>
+     <td>{{lec.cash}}</td>
+     <td>{{lec.date}}</td>
+   </tr>
+
+ {%endfor%}
+   <tr>
+     <td>BTC</td>
+     <td>TOTAL</td>
+     <td>{{total}}</td>
+     <td></td>
+   </tr>
+</table>
+
+
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#btc_total">BTC total</a></li>
+  <li><a data-toggle="tab" href="#ahashpool">ahashpool</a></li>
+  <li><a data-toggle="tab" href="#zergpool">zergpool</a></li>
+  <li><a data-toggle="tab" href="#zpool">zpool</a></li>
+  <li><a data-toggle="tab" href="#hashrefinery">hashrefinery</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="btc_total" class="tab-pane fade in active">
+    <h3>TOTAL</h3>
+    <div id="btc_total_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+  </div>
+  <div id="ahashpool" class="tab-pane fade in ">
+    <h3>ahashpool</h3>
+
+  </div>
+  <div id="zergpool" class="tab-pane fade in ">
+    <h3>zergpool</h3>
+
+  </div>
+  <div id="zpool" class="tab-pane fade in ">
+    <h3>zpool</h3>
+    <div id="zpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+  </div>
+  <div id="hashrefinery" class="tab-pane fade in ">
+    <h3>hashrefinery</h3>
+    <div id="hashrefinery" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+  </div>
+</div>
+
+<div id="ahashpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+<div id="zergpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
+<script>
+$.getJSON(
+    // 'https://cdn.rawgit.com/highcharts/highcharts/17d0385/samples/data/usdeur.json',
+    '/web/chart_data_json/{{address.address}}/1',
+    function (data) {
+
+        // Highcharts.chart('ahashpool_container', {
+      $('#ahashpool_container').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'BTC en ahashpool'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Habemus zoom' : ''
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'BTC'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'BTC pool',
+                data: data
+            }]
+        });
+        $.getJSON(
+            // 'https://cdn.rawgit.com/highcharts/highcharts/17d0385/samples/data/usdeur.json',
+            '/web/chart_data_json/{{address.address}}/2',
+            function (data) {
+
+                // Highcharts.chart('zergpool_container', {
+                $('#zergpool_container').highcharts({
+                    chart: {
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'BTC en zergpool'
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                                'Habemus zoom' : ''
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'BTC'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+                    series: [{
+                        type: 'area',
+                        name: 'BTC zergpool pool',
+                        data: data
+                    }]
+                });
+            }
+        );
+    }
+);
+
+
+
+
+
+</script>
+
+</body>
+</html>

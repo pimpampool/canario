@@ -1,0 +1,7 @@
+<form action="./" method='POST'>
+   Dirección:<br>
+   {% csrf_token %}
+   <input type="text" name="address" value=""><br>
+   <!-- <input type="radio" name="nuevo" value="other"> crear -->
+   <input type="submit" value="Submit">
+</form>

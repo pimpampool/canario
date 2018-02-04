@@ -1,0 +1,50 @@
+
+<h1>{{lec.address}}</h1>
+<table  border="1">
+ <tr>
+   <th>Currency</th>
+   <th>pool</th>
+   <th>cash</th>
+   <th>last update</th>
+ </tr>
+
+ {%for lec in lecturas%}
+   <tr>
+     <td>{{lec.cryptocurrency}}</td>
+     <td>{{lec.get_pool_display}}</td>
+     <td>{{lec.cash}}</td>
+     <td>{{lec.date}}</td>
+   </tr>
+
+ {%endfor%}
+   <tr>
+     <td>BTC</td>
+     <td>TOTAL</td>
+     <td>{{total}}</td>
+     <td></td>
+   </tr>
+</table>
+
+<canvas id="myChart"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+})
+</script>
