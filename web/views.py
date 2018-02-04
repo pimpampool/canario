@@ -30,7 +30,7 @@ def index(request):
 
 def monitor_pool(request,address,pool_id):
 
-    url = 'https://blockchain.info/q/addressbalance/1KsPftfHwNsawVS3uVRDFs5sL9Tb1XzZxo?confirmations=1'
+    url = 'https://blockchain.info/q/addressbalance/'+address+'?confirmations=1'
     addr_balance =  int(urllib.request.urlopen(Request(url), data=None).read().decode())/100000000
 
 
