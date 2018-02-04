@@ -45,8 +45,9 @@ def monitor_pool(request,address,pool_id):
         if pool[0] > 0:
             lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
             lec.usd = "{:.2f}".format(lec.cash * btc_USD)
-            lecturas.append(lec)
             total +=  lec.cash
+            lec.cash = "{:.8f}".format(lec.cash)
+            lecturas.append(lec)
     total_usd = "{:.2f}".format(total * btc_USD)
 
     # Calcular beneficio 24 h
