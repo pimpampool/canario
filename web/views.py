@@ -65,7 +65,7 @@ def monitor_pool(request,address,pool_id):
         'pool': pool_id,
         'pool_name' : Lectura().POOLS[pool_id][1],
         'lecturas': lecturas,
-        'btc_USD':btc_USD,
+        'btc_USD':"{:.2f}".format(btc_USD),
         'last_24h_btc' : "{:.8f}".format(last_24h_now - last_24h_low),
         'total_usd':total_usd,
         'addr_balance': addr_balance,

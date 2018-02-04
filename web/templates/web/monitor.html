@@ -1,4 +1,4 @@
-
+{% load humanize %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,6 +73,10 @@ function open_win() {
     <th> Last 24h BTC </th>
     <th> {{last_24h_btc}} BTC</th>
   </tr>
+   <tr>
+     <th> 1 BTC </th>
+     <th> {{ btc_USD|intcomma }} $</th>
+   </tr>
 </table>
 
 
