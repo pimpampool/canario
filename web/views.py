@@ -29,11 +29,14 @@ def index(request):
 
 
 def monitor_pool(request,address,pool_id):
+    # último precio del btc en USD
     btc_USD = PriceSnapshot.objects.all().order_by('-id')[0].price
-
-    url = 'https://blockchain.info/q/addressbalance/'+address+'?confirmations=1'
-    addr_balance =  int(urllib.request.urlopen(Request(url), data=None).read().decode())/100000000
-
+    # balance del address en blockchain
+    try:
+        url = 'https://blockchain.info/q/addressbalance/'+address+'?confirmations=1'
+        addr_balance =  int(urllib.request.urlopen(Request(url), data=None).read().decode())/100000000
+    except:
+        addr_balance = 'ERROR'
 
     addr = Address.objects.get(address=address)
     lecturas = []
@@ -45,6 +48,17 @@ def monitor_pool(request,address,pool_id):
             lecturas.append(lec)
             total +=  lec.cash
     total_usd = "{:.2f}".format(total * btc_USD)
+
+    # Calcular beneficio 24 h
+    from datetime import datetime, timedelta
+
+    time_threshold = datetime.now() - timedelta(hours=24)
+    last_24h_now = Lectura.objects.filter(address=addr,pool=0).order_by('-id')[0].cash
+    try:
+        last_24h_low = Lectura.objects.filter(address=addr,pool=0).filter(date__lt=time_threshold).order_by('-id')[0].cash
+    except:
+        last_24h_low = Lectura.objects.filter(address=addr,pool=0).order_by('id')[0].cash
+
     template = loader.get_template('web/monitor.html')
     context = {
         'address': addr,
@@ -52,6 +66,7 @@ def monitor_pool(request,address,pool_id):
         'pool_name' : Lectura().POOLS[pool_id][1],
         'lecturas': lecturas,
         'btc_USD':btc_USD,
+        'last_24h_btc' : "{:.8f}".format(last_24h_now - last_24h_low),
         'total_usd':total_usd,
         'addr_balance': addr_balance,
         'total': "{:.8f}".format(total) ,

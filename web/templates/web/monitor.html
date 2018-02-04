@@ -18,7 +18,7 @@
 
 
 
-<title>Page Title</title>
+<title>Trujario</title>
 </head>
 <body>
 
@@ -54,9 +54,20 @@
      <td></td>
    </tr>
 </table>
-<br><br>
-{{addr_balance}} BTC in {{address.address}}
 <br>
+<table  class="table table-striped">
+ <tr>
+   <th> BTC in {{address.address}} </th>
+   <th>{{addr_balance}} BTC</th>
+ </tr>
+  <tr>
+    <th> Last 24h BTC </th>
+    <th> {{last_24h_btc}} BTC</th>
+  </tr>
+</table>
+
+
+
 
 <ul class="nav nav-tabs">
   <li {%if  pool == 0 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/0">BTC total</a></li>
