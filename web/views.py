@@ -18,14 +18,16 @@ def index(request):
         # nuevo = request.POST.get("nuevo", "")
         # if nuevo:
         addr = request.POST.get("address", "")
-        return HttpResponseRedirect('./monitor/'+addr)
+        return HttpResponseRedirect('./monitor/'+addr+'/0')
     template = loader.get_template('web/index.html')
     context = {
         'latest_question_list': 2,
     }
     return HttpResponse(template.render(context, request))
 
-def monitor(request,address):
+
+
+def monitor_pool(request,address,pool_id):
     addr = Address.objects.get(address=address)
     lecturas = []
     total = 0.0
@@ -34,30 +36,24 @@ def monitor(request,address):
             lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
             lecturas.append(lec)
             total +=  lec.cash
+
     template = loader.get_template('web/monitor.html')
     context = {
         'address': addr,
+        'pool': pool_id,
+        'pool_name' : Lectura().POOLS[pool_id][1],
         'lecturas': lecturas,
-        'total': total,
-    }
-    return HttpResponse(template.render(context, request))
-
-def monitor_pool(request,address,pool):
-    addr = Address.objects.get(address=address)
-    template = loader.get_template('web/monitor2.html')
-    context = {
-        'address': addr,
-        'pool': pool,
+        'total': "{:.8f}".format(total) ,
     }
     return HttpResponse(template.render(context, request))
 
 
 # @login_required
-def chart_data_json(request,addr,pool):
+def chart_data_json(request,addr,pool_id):
     data = []
     params = request.GET
     addr = Address.objects.get(address=addr)
-    lecturas = Lectura.objects.filter (address=addr,pool=pool)
+    lecturas = Lectura.objects.filter(address=addr,pool=pool_id)
     for lec in lecturas:
         data.append([int(lec.date.timestamp())*1000, lec.cash])
 

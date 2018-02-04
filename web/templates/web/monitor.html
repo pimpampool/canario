@@ -47,53 +47,32 @@
    <tr>
      <td>BTC</td>
      <td>TOTAL</td>
-     <td>{{total}}</td>
+     <td>{{ total }}</td>
      <td></td>
    </tr>
 </table>
 
 
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#btc_total">BTC total</a></li>
-  <li><a data-toggle="tab" href="#ahashpool">ahashpool</a></li>
-  <li><a data-toggle="tab" href="#zergpool">zergpool</a></li>
-  <li><a data-toggle="tab" href="#zpool">zpool</a></li>
-  <li><a data-toggle="tab" href="#hashrefinery">hashrefinery</a></li>
+  <li {%if  pool == 0 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/0">BTC total</a></li>
+  <li {%if  pool == 1 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/1">ahashpool</a></li>
+  <li {%if  pool == 2 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/2">zergpool</a></li>
+  <li {%if  pool == 3 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/3">zpool</a></li>
+  <li {%if  pool == 4 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/4">hashrefinery</a></li>
 </ul>
 
-<div class="tab-content">
-  <div id="btc_total" class="tab-pane fade in active">
-    <h3>TOTAL</h3>
-    <div id="btc_total_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
-  </div>
-  <div id="ahashpool" class="tab-pane fade in ">
-    <h3>ahashpool</h3>
-    <div id="ahashpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="1"></div>
-  </div>
-  <div id="zergpool" class="tab-pane fade in ">
-    <h3>zergpool</h3>
-    <div id="zergpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="2"></div>
-  </div>
-  <div id="zpool" class="tab-pane fade in ">
-    <h3>zpool</h3>
-    <div id="zpool_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="3"></div>
-  </div>
-  <div id="hashrefinery" class="tab-pane fade in ">
-    <h3>hashrefinery</h3>
-    <div id="hashrefinery_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="4"></div>
-  </div>
-</div>
+<div id="chart_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
 
 <script>
 var my_json0;
-$.getJSON( '/chart_data_json/{{address.address}}/0', function(json0) {
-  my_json0 = json0;
-  $('#btc_total_container').highcharts({
+$.getJSON( '/chart_data_json/{{address.address}}/{{pool}}', function(json) {
+  my_json0 = json;
+  $('#chart_container').highcharts({
         chart: {
             zoomType: 'x'
         },
         title: {
-            text: 'BTC en hashrefinery'
+            text: '{{address.address}} in {{pool_name}}'
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -144,245 +123,6 @@ $.getJSON( '/chart_data_json/{{address.address}}/0', function(json0) {
         }]
     });
 });
-var my_json1;
-$.getJSON( '/chart_data_json/{{address.address}}/1', function(json1) {
-  my_json1 = json1;
-  $('#ahashpool_container').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'BTC en ahashpool'
-        },
-        subtitle: {
-            text: document.ontouchstart === undefined ?
-                    'Habemus zoom' : ''
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
-            title: {
-                text: 'BTC'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            area: {
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                    ]
-                },
-                marker: {
-                    radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                    hover: {
-                        lineWidth: 1
-                    }
-                },
-                threshold: null
-            }
-        },
-
-        series: [{
-            type: 'area',
-            name: 'BTC pool ahashpool',
-            data: my_json1
-        }]
-    });
-});
-
-var my_json2;
-$.getJSON( '/chart_data_json/{{address.address}}/2', function(json2) {
-  my_json2 = json2;
-  $('#zergpool_container').highcharts({
-      chart: {
-          zoomType: 'x'
-      },
-      title: {
-          text: 'BTC en zergpool'
-      },
-      subtitle: {
-          text: document.ontouchstart === undefined ?
-                  'Habemus zoom' : ''
-      },
-      xAxis: {
-          type: 'datetime'
-      },
-      yAxis: {
-          title: {
-              text: 'BTC'
-          }
-      },
-      legend: {
-          enabled: false
-      },
-      plotOptions: {
-          area: {
-              fillColor: {
-                  linearGradient: {
-                      x1: 0,
-                      y1: 0,
-                      x2: 0,
-                      y2: 1
-                  },
-                  stops: [
-                      [0, Highcharts.getOptions().colors[0]],
-                      [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                  ]
-              },
-              marker: {
-                  radius: 2
-              },
-              lineWidth: 1,
-              states: {
-                  hover: {
-                      lineWidth: 1
-                  }
-              },
-              threshold: null
-          }
-      },
-
-      series: [{
-          type: 'area',
-          name: 'BTC zergpool pool',
-          data: my_json2
-      }]
-  });
-});
-
-var my_json3;
-$.getJSON( '/chart_data_json/{{address.address}}/3', function(json3) {
-  my_json3 = json3;
-  $('#zpool_container').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'BTC en zpool'
-        },
-        subtitle: {
-            text: document.ontouchstart === undefined ?
-                    'Habemus zoom' : ''
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
-            title: {
-                text: 'BTC'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            area: {
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                    ]
-                },
-                marker: {
-                    radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                    hover: {
-                        lineWidth: 1
-                    }
-                },
-                threshold: null
-            }
-        },
-
-        series: [{
-            type: 'area',
-            name: 'BTC zpool pool',
-            data: my_json3
-        }]
-    });
-});
-var my_json4;
-$.getJSON( '/chart_data_json/{{address.address}}/4', function(json4) {
-  my_json4 = json4;
-  $('#hashrefinery_container').highcharts({
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'BTC en hashrefinery'
-        },
-        subtitle: {
-            text: document.ontouchstart === undefined ?
-                    'Habemus zoom' : ''
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
-            title: {
-                text: 'BTC'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            area: {
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                    ]
-                },
-                marker: {
-                    radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                    hover: {
-                        lineWidth: 1
-                    }
-                },
-                threshold: null
-            }
-        },
-
-        series: [{
-            type: 'area',
-            name: 'BTC hashrefinery pool',
-            data: my_json4
-        }]
-    });
-});
-
 
 
 
