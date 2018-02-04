@@ -29,6 +29,7 @@ def index(request):
 
 
 def monitor_pool(request,address,pool_id):
+    btc_USD = PriceSnapshot.objects.all().order_by('-id')[0].price
 
     url = 'https://blockchain.info/q/addressbalance/'+address+'?confirmations=1'
     addr_balance =  int(urllib.request.urlopen(Request(url), data=None).read().decode())/100000000
@@ -40,15 +41,18 @@ def monitor_pool(request,address,pool_id):
     for pool in Lectura().POOLS:
         if pool[0] > 0:
             lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
+            lec.usd = "{:.2f}".format(lec.cash * btc_USD)
             lecturas.append(lec)
             total +=  lec.cash
-
+    total_usd = "{:.2f}".format(total * btc_USD)
     template = loader.get_template('web/monitor.html')
     context = {
         'address': addr,
         'pool': pool_id,
         'pool_name' : Lectura().POOLS[pool_id][1],
         'lecturas': lecturas,
+        'btc_USD':btc_USD,
+        'total_usd':total_usd,
         'addr_balance': addr_balance,
         'total': "{:.8f}".format(total) ,
     }

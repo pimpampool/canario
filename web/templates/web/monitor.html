@@ -27,11 +27,12 @@
 
 
 <h1>{{lec.address}}</h1>
-<table  border="1">
+<table  class="table table-striped">
  <tr>
    <th>Currency</th>
    <th>pool</th>
    <th>cash</th>
+   <th>USD</th>
    <th>last update</th>
  </tr>
 
@@ -40,6 +41,7 @@
      <td>{{lec.cryptocurrency}}</td>
      <td>{{lec.get_pool_display}}</td>
      <td>{{lec.cash}}</td>
+     <td>{{lec.usd}} $</td>
      <td>{{lec.date}}</td>
    </tr>
 
@@ -48,6 +50,7 @@
      <td>BTC</td>
      <td>TOTAL</td>
      <td>{{ total }}</td>
+     <td>{{total_usd}} $</td>
      <td></td>
    </tr>
 </table>
