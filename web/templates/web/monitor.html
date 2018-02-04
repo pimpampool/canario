@@ -51,7 +51,9 @@
      <td></td>
    </tr>
 </table>
-
+<br><br>
+{{addr_balance}} BTC in {{address.address}}
+<br>
 
 <ul class="nav nav-tabs">
   <li {%if  pool == 0 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/0">BTC total</a></li>
@@ -60,6 +62,8 @@
   <li {%if  pool == 3 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/3">zpool</a></li>
   <li {%if  pool == 4 %}class="active"{%endif%}><a href="/monitor/{{address.address}}/4">hashrefinery</a></li>
 </ul>
+
+
 
 <div id="chart_container" style="min-width: 310px; height: 400px; margin: 0 auto" data-highcharts-chart="0"></div>
 
@@ -72,7 +76,7 @@ $.getJSON( '/chart_data_json/{{address.address}}/{{pool}}', function(json) {
             zoomType: 'x'
         },
         title: {
-            text: '{{address.address}} in {{pool_name}}'
+            text: '{{address.address}} in {{pool_name}} -> '
         },
         subtitle: {
             text: document.ontouchstart === undefined ?

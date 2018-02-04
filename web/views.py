@@ -8,6 +8,7 @@ import urllib.request, json
 from urllib.request import Request
 from web.models import *
 import json
+from urllib.request import Request
 
 def btc_to_usd(btc):
     usd = 1.0*btc*coindesk_USD
@@ -28,6 +29,11 @@ def index(request):
 
 
 def monitor_pool(request,address,pool_id):
+
+    url = 'https://blockchain.info/q/addressbalance/1KsPftfHwNsawVS3uVRDFs5sL9Tb1XzZxo?confirmations=1'
+    addr_balance =  int(urllib.request.urlopen(Request(url), data=None).read().decode())/100000000
+
+
     addr = Address.objects.get(address=address)
     lecturas = []
     total = 0.0
@@ -43,6 +49,7 @@ def monitor_pool(request,address,pool_id):
         'pool': pool_id,
         'pool_name' : Lectura().POOLS[pool_id][1],
         'lecturas': lecturas,
+        'addr_balance': addr_balance,
         'total': "{:.8f}".format(total) ,
     }
     return HttpResponse(template.render(context, request))
