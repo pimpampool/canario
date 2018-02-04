@@ -9,6 +9,7 @@ from urllib.request import Request
 from web.models import *
 import json
 from urllib.request import Request
+from datetime import datetime, timedelta
 
 def btc_to_usd(btc):
     usd = 1.0*btc*coindesk_USD
@@ -41,25 +42,28 @@ def monitor_pool(request,address,pool_id):
     addr = Address.objects.get(address=address)
     lecturas = []
     total = 0.0
+    total_balance = 0.0
     for pool in Lectura().POOLS:
         if pool[0] > 0:
             lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
             lec.usd = "{:.2f}".format(lec.cash * btc_USD)
+            lec.total_usd = "{:.2f}".format(lec.total_balance * btc_USD)
             total +=  lec.cash
+            total_balance +=  lec.total_balance
             lec.cash = "{:.8f}".format(lec.cash)
+            lec.total_balance = "{:.8f}".format(lec.total_balance)
             lecturas.append(lec)
     total_usd = "{:.2f}".format(total * btc_USD)
+    total_balance_usd = "{:.2f}".format(total_balance * btc_USD)
 
     # Calcular beneficio 24 h
-    from datetime import datetime, timedelta
 
     time_threshold = datetime.now() - timedelta(hours=24)
-    last_24h_now = Lectura.objects.filter(address=addr,pool=0).order_by('-id')[0].cash
+    last_24h_now = Lectura.objects.filter(address=addr,pool=0).order_by('-id')[0].total_balance
     try:
-        last_24h_low = Lectura.objects.filter(address=addr,pool=0).filter(date__lt=time_threshold).order_by('-id')[0].cash
+        last_24h_low = Lectura.objects.filter(address=addr,pool=0).filter(date__lt=time_threshold).order_by('-id')[0].total_balance
     except:
-        last_24h_low = Lectura.objects.filter(address=addr,pool=0).order_by('id')[0].cash
-
+        last_24h_low = Lectura.objects.filter(address=addr,pool=0).order_by('id')[0].total_balance
     template = loader.get_template('web/monitor.html')
     context = {
         'address': addr,
@@ -69,8 +73,10 @@ def monitor_pool(request,address,pool_id):
         'btc_USD':"{:.2f}".format(btc_USD),
         'last_24h_btc' : "{:.8f}".format(last_24h_now - last_24h_low),
         'total_usd':total_usd,
+        'total_balance_usd':total_balance_usd,
         'addr_balance': addr_balance,
         'total': "{:.8f}".format(total) ,
+        'total_balance': "{:.8f}".format(total_balance) ,
     }
     return HttpResponse(template.render(context, request))
 

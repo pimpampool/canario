@@ -37,17 +37,19 @@ class Lectura(models.Model):
     address = models.ForeignKey(Address,on_delete=models.CASCADE)
     pool = models.IntegerField(choices=POOLS)
     cash = models.FloatField()
+    total_balance = models.FloatField()
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return str(self.cash)
 
-    def add_new(self,address,pool_id,total,currency):
+    def add_new(self,address,pool_id,total,currency,total_balance):
         lec = Lectura()
         lec.address = address
         lec.cryptocurrency = address.cryptocurrency
         lec.pool = pool_id
         lec.cash = total
+        lec.total_balance = total_balance
         lec.save()
 
     def get_pool_url(self):

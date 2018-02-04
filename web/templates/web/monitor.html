@@ -42,6 +42,8 @@ function open_win() {
    <th>pool</th>
    <th>cash</th>
    <th>USD</th>
+   <th>total minado</th>
+   <th>total USD minado</th>
    <th>last update</th>
  </tr>
 
@@ -49,8 +51,10 @@ function open_win() {
    <tr>
      <td>{{lec.cryptocurrency}}</td>
      <td><a href="{{lec.get_pool_url}}{{address.address}}" target="blank">{{lec.get_pool_display}}</a></td>
-     <td>{{lec.cash}}</td>
+     <td>{{lec.cash}} ฿</td>
      <td>{{lec.usd}} $</td>
+     <td>{{lec.total_balance}} ฿</td>
+     <td>{{lec.total_usd}} $</td>
      <td>{{lec.date}}</td>
    </tr>
 
@@ -58,8 +62,10 @@ function open_win() {
    <tr>
      <td>BTC</td>
      <td>TOTAL</td>
-     <td>{{ total }}</td>
+     <td>{{ total }} ฿</td>
      <td>{{total_usd}} $</td>
+     <td>{{total_balance}} ฿</td>
+     <td>{{total_balance_usd}} $</td>
      <td><input type=button value="Abrir web de pools" onclick="open_win()"></td>
    </tr>
 </table>
@@ -71,7 +77,7 @@ function open_win() {
  </tr>
   <tr>
     <th> Last 24h BTC </th>
-    <th> {{last_24h_btc}} BTC</th>
+    <th> {{last_24h_btc}} ฿</th>
   </tr>
    <tr>
      <th> 1 BTC </th>
