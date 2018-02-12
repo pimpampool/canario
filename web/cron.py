@@ -34,7 +34,7 @@ def lanzar_lecturas():
             ahashpool_total = 0
 
         try:
-            zergpool_url = urllib.request.urlopen("http://www.zergpool.com//api/wallet/?address="+btc_address)
+            zergpool_url = urllib.request.urlopen("http://zergpool.com//api/wallet/?address="+btc_address)
             zergpool_data = json.loads(zergpool_url.read().decode())
             total_balance = zergpool_data['total']
             zergpool_total = zergpool_data['unpaid']

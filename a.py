@@ -1,7 +1,9 @@
 #!/usr/bin/python
 import time
-import urllib.request, json
-from urllib.request import Request
+# import urllib.request, json
+# from urllib.request import Request
+from urllib import request
+import json
 import os
 
 
@@ -15,7 +17,7 @@ user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/
 
 def showme_the_money():
     try:
-        ahashpool_url = urllib.request.urlopen("https://www.ahashpool.com/api/wallet/?address="+btc_address)
+        ahashpool_url = request.urlopen("https://www.ahashpool.com/api/wallet/?address="+btc_address)
         ahashpool_data = json.loads(ahashpool_url.read().decode())
         ahashpool_total = ahashpool_data['total_earned']
     except:
@@ -29,20 +31,20 @@ def showme_the_money():
         zergpool_total = 0
 
     try:
-        zpool_url = urllib.request.urlopen(Request(str("http://zpool.ca/api/wallet/?address="+btc_address), data=None, headers={'User-Agent': user_agent}))
+        zpool_url = request.urlopen(request.Request(str("http://zpool.ca/api/wallet/?address="+btc_address), data=None, headers={'User-Agent': user_agent}))
         zpool_data = json.loads(zpool_url.read().decode())
         zpool_total = zpool_data['total']
     except:
         zpool_total = 0
 
     try:
-        hashrefinery_url = urllib.request.urlopen(Request(str("http://pool.hashrefinery.com/api/wallet?address="+btc_address), data=None, headers={'User-Agent': user_agent}))
+        hashrefinery_url = request.urlopen(request.Request(str("http://pool.hashrefinery.com/api/wallet?address="+btc_address), data=None, headers={'User-Agent': user_agent}))
         hashrefinery_data = json.loads(hashrefinery_url.read().decode())
         hashrefinery_total = hashrefinery_data['total']
     except:
         hashrefinery_total = 0
 
-    coindesk_url = urllib.request.urlopen(Request(str("https://api.coindesk.com/v1/bpi/currentprice/btc.json"), data=None, headers={'User-Agent': user_agent}))
+    coindesk_url = request.urlopen(request.Request(str("https://api.coindesk.com/v1/bpi/currentprice/btc.json"), data=None, headers={'User-Agent': user_agent}))
     coindesk_data = json.loads(coindesk_url.read().decode())
     coindesk_USD = coindesk_data['bpi']['USD']['rate_float']
     pool_totals = float("{0:.8f}".format(ahashpool_total+zergpool_total+zpool_total+hashrefinery_total))
