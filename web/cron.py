@@ -65,8 +65,11 @@ def lanzar_lecturas():
         total_balance = 0.0
         for pool in Lectura().POOLS:
             if pool[0] > 0:
-                lec = Lectura.objects.filter (address=dire,pool=pool[0]).order_by('-id')[0]
-                lecturas.append(lec)
-                total +=  lec.cash
-                total_balance +=  lec.total_balance
+                try:
+                    lec = Lectura.objects.filter (address=dire,pool=pool[0]).order_by('-id')[0]
+                    lecturas.append(lec)
+                    total +=  lec.cash
+                    total_balance +=  lec.total_balance
+                except:
+                    pass
         Lectura().add_new(dire,0,total,dire.cryptocurrency,total_balance)
