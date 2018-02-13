@@ -123,5 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRONJOBS = [
-    ('*/1 * * * *', 'web.cron.lanzar_lecturas')
+    ('*/5 * * * *', 'web.cron.lanzar_lecturas')
 ]
