@@ -32,6 +32,7 @@ class Lectura(models.Model):
     (2, "zergpool"),
     (3, "zpool"),
     (4, "hashrefinery"),
+    (5, "blazepool"),
     )
     cryptocurrency = models.ForeignKey(Cryptocurrency,on_delete=models.CASCADE)
     address = models.ForeignKey(Address,on_delete=models.CASCADE)

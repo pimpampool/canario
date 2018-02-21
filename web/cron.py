@@ -60,17 +60,15 @@ def lanzar_lecturas():
         except:
             hashrefinery_total = 0
 
-        # try:
-        blazepool_url = urllib.request.urlopen(Request(str("http://api.blazepool.com/wallet/"+btc_address), data=None, headers={'User-Agent': user_agent}))
-        blazepool_data = json.loads(blazepool_url.read().decode())
-        total_balance = blazepool_data['total_earned']
-        blazepool_total = blazepool_data['total_unpaid']
-        Lectura().add_new(dire,5,blazepool_total,dire.cryptocurrency,total_balance)
+        try:
+            blazepool_url = urllib.request.urlopen(Request(str("http://api.blazepool.com/wallet/"+btc_address), data=None, headers={'User-Agent': user_agent}))
+            blazepool_data = json.loads(blazepool_url.read().decode())
+            total_balance = blazepool_data['total_earned']
+            blazepool_total = blazepool_data['total_unpaid']
+            Lectura().add_new(dire,5,blazepool_total,dire.cryptocurrency,total_balance)
 
-        # print(blazepool_total)
-        # print(2)
-        # except:
-        #     blazepool_total = 0
+        except:
+            blazepool_total = 0
 
         lecturas = []
         total = 0.0
