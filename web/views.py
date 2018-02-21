@@ -45,14 +45,17 @@ def monitor_pool(request,address,pool_id):
     total_balance = 0.0
     for pool in Lectura().POOLS:
         if pool[0] > 0:
-            lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
-            lec.usd = "{:.2f}".format(lec.cash * btc_USD)
-            lec.total_usd = "{:.2f}".format(lec.total_balance * btc_USD)
-            total +=  lec.cash
-            total_balance +=  lec.total_balance
-            lec.cash = "{:.8f}".format(lec.cash)
-            lec.total_balance = "{:.8f}".format(lec.total_balance)
-            lecturas.append(lec)
+            try:
+                lec = Lectura.objects.filter (address=addr,pool=pool[0]).order_by('-id')[0]
+                lec.usd = "{:.2f}".format(lec.cash * btc_USD)
+                lec.total_usd = "{:.2f}".format(lec.total_balance * btc_USD)
+                total +=  lec.cash
+                total_balance +=  lec.total_balance
+                lec.cash = "{:.8f}".format(lec.cash)
+                lec.total_balance = "{:.8f}".format(lec.total_balance)
+                lecturas.append(lec)
+            except:
+                pass
     total_usd = "{:.2f}".format(total * btc_USD)
     total_balance_usd = "{:.2f}".format(total_balance * btc_USD)
 
